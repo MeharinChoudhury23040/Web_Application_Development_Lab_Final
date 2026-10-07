@@ -32,6 +32,7 @@
                         <th>Date</th>
                         <th>Token Code</th>
                         <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
@@ -59,12 +60,25 @@
                         <td>
                             {{ booking.get_status_display }}
                         </td>
+                        <td>
+    {% if booking.status == 'booked' %}
+        <form method="post"
+              action="{% url 'use_token' booking.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success btn-sm">
+                Use Token
+            </button>
+        </form>
+    {% else %}
+        —
+    {% endif %}
+</td>
                     </tr>
 
                     {% empty %}
 
                     <tr>
-                        <td colspan="5" class="text-center">
+                        <td colspan="6" class="text-center">
                             No token information found.
                         </td>
                     </tr>
